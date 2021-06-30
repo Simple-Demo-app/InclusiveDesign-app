@@ -1,0 +1,43 @@
+name: App Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches:
+      - '*'
+  schedule:
+    - cron: '0 0,12 * * *'
+
+jobs:
+  macOS10:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+        #- name: Test (Debug)
+        #run: swift test -v --configuration debug
+     
+        # we cannot build an app that uses SwiftUI.App until the
+        # macos-11 virtual environment is made public, so the
+        # next best thing to do is run the tests in the iPhone simualtor
+        # even though we are really a mac app.
+      - name: Test (Release)
+        run: xcodebuild clean test \
+              -configuration Release \
+              -scheme "App" \
+              -sdk "iphonesimulator" \
+              -destination "platform=iOS Simulator,name=iPod touch (7th generation)" \
+              ONLY_ACTIVE_ARCH=YES CODE_SIGNING_REQUIRED=NO
+
+
+  macOS11:
+    if: false
+    runs-on: macos-11
+    needs: [macOS10] # macOS10 must pass first
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test (Debug)
+        run: swift test -v --configuration debug
+      - name: Test (Release)
+        run: swift test -v --configuration release -Xswiftc -enable-testing
+
