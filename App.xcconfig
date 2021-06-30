@@ -1,0 +1,4 @@
+PRODUCT_NAME = InclusiveDesign
+PRODUCT_BUNDLE_IDENTIFIER = app.InclusiveDesign
+EXECUTABLE_NAME = InclusiveDesign
+
