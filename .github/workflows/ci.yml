@@ -22,12 +22,7 @@ jobs:
         # next best thing to do is run the tests in the iPhone simualtor
         # even though we are really a mac app.
       - name: Test (Release)
-        run: xcodebuild clean test \
-              -configuration Release \
-              -scheme "App" \
-              -sdk "iphonesimulator" \
-              -destination "platform=iOS Simulator,name=iPod touch (7th generation)" \
-              ONLY_ACTIVE_ARCH=YES CODE_SIGNING_REQUIRED=NO
+        run: xcodebuild -configuration Release -scheme "App" -sdk "iphonesimulator" -destination "platform=iOS Simulator,name=iPod touch (7th generation)" ONLY_ACTIVE_ARCH=YES CODE_SIGNING_REQUIRED=NO
 
 
   macOS11:
